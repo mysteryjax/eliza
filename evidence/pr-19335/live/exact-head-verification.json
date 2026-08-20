@@ -1,0 +1,23 @@
+{
+  "head": "29b8ef15b6612aaad33a53dbf4eeb6c4aa2d8126",
+  "base": "cae03b2b4d989444999a5e2dee63c0d16fd57e6c",
+  "passed": {
+    "focusedUiAuth": "3 files, 17 tests",
+    "tenantValidator": "1 file, 17 tests",
+    "uiLint": "passed with 5 pre-existing document.cookie warnings",
+    "uiTypecheck": "passed",
+    "uiProductionBuild": "passed; 1952 files rewritten and 46 runtime exports verified"
+  },
+  "broaderCurrentDevelopBaselines": {
+    "fullUiSuite": "17 files failed, 1047 passed; 30 tests failed, 11042 passed, 22 skipped",
+    "rootVerify": "failed in ensure-plugin-test-conventions because fs-extra could not be resolved for three plugin-personal-assistant Vitest configs",
+    "visualCaptureHead": "112e7631b799e0976c6217f2f50fbe154db45b41",
+    "visualCapture": "222 of 223 checks passed; final strict aggregate failed three unrelated minimalism ratchets",
+    "ocrTriage": "220 views: 103 verified, 42 broken, 75 needs-eyeball; 25 unbaselined regressions"
+  },
+  "liveDeployment": {
+    "deployedBuild": "7c0d963ec0aa",
+    "matchesHead": false,
+    "disposition": "not mergeable; keep draft"
+  }
+}

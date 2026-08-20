@@ -1,0 +1,28 @@
+{
+  "candidateHeadAtLiveRun": "7998dd1ab22b8aeb53aef5f84ad69f035ee9dc18",
+  "currentRebasedHead": "29b8ef15b6612aaad33a53dbf4eeb6c4aa2d8126",
+  "currentBase": "cae03b2b4d989444999a5e2dee63c0d16fd57e6c",
+  "deployedBuild": "7c0d963ec0aa",
+  "stagingEmailCallbackOrigin": "https://staging.eliza.app",
+  "productionEmailCallbackOrigin": "https://eliza.app",
+  "emailCallbackPath": "/auth/callback/email",
+  "finalUrl": "https://cloud-staging.eliza.app/chat",
+  "tabCount": 1,
+  "sessionAdopted": true,
+  "acceptanceDisposition": "fail",
+  "failures": [
+    "staging Steward magicLinkBaseUrl is the legacy https://staging.eliza.app origin",
+    "production Steward magicLinkBaseUrl is the legacy https://eliza.app origin",
+    "the deployed staging build is not the current rebased head",
+    "authenticated GET /api/auth/me returns 404 resource_not_found"
+  ],
+  "authMe": {
+    "url": "https://cloud-staging.eliza.app/api/auth/me",
+    "status": 404,
+    "body": {
+      "success": false,
+      "error": "Not found",
+      "code": "resource_not_found"
+    }
+  }
+}

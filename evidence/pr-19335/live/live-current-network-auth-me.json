@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://cloud-staging.eliza.app/api/auth/me",
+    "context": "same browser session after Steward email callback adoption"
+  },
+  "response": {
+    "status": 404,
+    "body": {
+      "success": false,
+      "error": "Not found",
+      "code": "resource_not_found"
+    }
+  },
+  "captureNote": "Observed by direct navigation on the authenticated staging tab. No request headers, cookies, mailbox credentials, or magic-link tokens are retained."
+}

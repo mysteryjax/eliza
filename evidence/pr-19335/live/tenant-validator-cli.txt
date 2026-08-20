@@ -1,0 +1,10 @@
+candidate head: 29b8ef15b6612aaad33a53dbf4eeb6c4aa2d8126
+base: cae03b2b4d989444999a5e2dee63c0d16fd57e6c
+
+$ bun packages/cloud/scripts/verify-steward-email-callback-config.mjs --environment staging --magic-link-base-url https://staging.eliza.app --callback-path /auth/callback/email
+verify-steward-email-callback-config: magic-link base must be the canonical staging app origin https://cloud-staging.eliza.app
+exit: 1
+
+$ bun packages/cloud/scripts/verify-steward-email-callback-config.mjs --environment production --magic-link-base-url https://eliza.app --callback-path /auth/callback/email
+verify-steward-email-callback-config: magic-link base must be the canonical production app origin https://cloud.eliza.app
+exit: 1
