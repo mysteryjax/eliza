@@ -2,10 +2,9 @@
  * Browser HTTP adapter for Steward's email magic-link sign-in contract.
  *
  * The UI calls these endpoints directly through the configured Steward mount
- * because the installed SDK can lag API rollout. A successful send must expose
- * the companion-code challenge contract so the initiating tab always has a
- * complete one-tab ceremony. Status polling intentionally returns only
- * challenge state; it never hydrates a session on the polling device.
+ * because the installed SDK can lag API rollout. Status polling intentionally
+ * returns only challenge state; it never hydrates a session on the polling
+ * device.
  */
 
 import type { StewardAuthResult, StewardMfaRequiredResult } from "@stwd/sdk";
@@ -19,8 +18,8 @@ export type StewardEmailLoginStatus =
 
 export interface StewardEmailLoginChallenge {
   expiresAt: string | number;
-  challengeId: string;
-  pollSecret: string;
+  challengeId?: string;
+  pollSecret?: string;
 }
 
 interface StewardEmailLoginOptions {
@@ -164,21 +163,16 @@ export async function startStewardEmailLogin(
   const expiresAt =
     string(data.expiresAt) ??
     (typeof data.expiresAt === "number" ? data.expiresAt : undefined);
-  const challengeId = string(data.challengeId)?.trim();
-  const pollSecret = string(data.pollSecret)?.trim();
+  const challengeId = string(data.challengeId);
+  const pollSecret = string(data.pollSecret);
   if (expiresAt === undefined) {
     throw new StewardEmailLoginError(
       "Steward email sign-in response was malformed.",
       502,
     );
   }
-  if (!challengeId || !pollSecret) {
-    throw new StewardEmailLoginError(
-      "Steward email sign-in did not provide the required one-tab verification challenge.",
-      502,
-      "companion_code_unavailable",
-    );
-  }
+  // challengeId/pollSecret are additive in Steward #242. Their absence keeps
+  // the existing magic-link-only UI working during a rolling deployment.
   return { expiresAt, challengeId, pollSecret };
 }
 
