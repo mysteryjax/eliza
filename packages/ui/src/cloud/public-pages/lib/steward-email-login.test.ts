@@ -62,25 +62,38 @@ describe("steward email sign-in adapter", () => {
     );
   });
 
-  it("preserves magic-link-only login during a rolling Steward deployment", async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(
-      jsonResponse({
-        ok: true,
-        data: { expiresAt: "2026-07-17T12:10:00.000Z" },
-      }),
-    );
+  it.each([
+    { challengeId: undefined, pollSecret: "poll-secret" },
+    { challengeId: "challenge-1", pollSecret: undefined },
+    { challengeId: "   ", pollSecret: "poll-secret" },
+    { challengeId: "challenge-1", pollSecret: "" },
+  ])(
+    "rejects a send response without the complete one-tab challenge contract: $challengeId / $pollSecret",
+    async ({ challengeId, pollSecret }) => {
+      const fetchImpl = vi.fn().mockResolvedValue(
+        jsonResponse({
+          ok: true,
+          data: {
+            expiresAt: "2026-07-17T12:10:00.000Z",
+            challengeId,
+            pollSecret,
+          },
+        }),
+      );
 
-    await expect(
-      startStewardEmailLogin(
-        { baseUrl: "/steward", tenantId: "elizacloud", fetchImpl },
-        "person@example.com",
-      ),
-    ).resolves.toEqual({
-      expiresAt: "2026-07-17T12:10:00.000Z",
-      challengeId: undefined,
-      pollSecret: undefined,
-    });
-  });
+      await expect(
+        startStewardEmailLogin(
+          { baseUrl: "/steward", tenantId: "elizacloud", fetchImpl },
+          "person@example.com",
+        ),
+      ).rejects.toMatchObject({
+        status: 502,
+        code: "companion_code_unavailable",
+        message:
+          "Steward email sign-in did not provide the required one-tab verification challenge.",
+      });
+    },
+  );
 
   it("verifies a six-digit companion code and returns the Steward session", async () => {
     const fetchImpl = vi.fn().mockResolvedValue(
